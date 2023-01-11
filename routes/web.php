@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +20,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function()
+{
+    Route::get('/' , [DashboardController::class, 'index'])->name('dashboard');
+});
 
 Route::middleware(['auth', 'verified'])
     ->prefix('admin')
@@ -27,4 +33,4 @@ Route::middleware(['auth', 'verified'])
         Route::resource('projects', ProjectController::class)->parameters(['projects' => 'projects:slug']);
     });
 
-require __DIR__.'/auth.php';
+require __DIR__. '/auth.php';
